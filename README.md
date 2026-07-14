@@ -8,6 +8,7 @@ A small repository template for projects developed by humans and coding agents. 
 AGENTS.md              One repository-wide operating map
 VISION.md              Human-owned North Star
 ARCHITECTURE.md        Concise structure and boundary map for code changes
+BOOTSTRAP.md            One-time guided setup protocol (self-removing)
 src/                    Production code
 tests/                  Automated tests
 openspec/               Behavioral specs, active changes, and ownership
@@ -38,7 +39,7 @@ There is exactly one `AGENTS.md` and no `docs/` directory. CI runs the repositor
    ```
 
 4. Install `codebase-memory-mcp` and ensure its binary is on `PATH`, or adjust `.mcp.json` for the local installation.
-5. Run the bootstrap: ask your agent to execute the change in `openspec/changes/bootstrap/`. It interviews you — one question at a time, with research and a recommendation attached to every question — to write `VISION.md`, the first specs, and `ARCHITECTURE.md`, then finalizes and removes itself. To skip the guided session, delete `openspec/changes/bootstrap/` and fill `VISION.md` and `ARCHITECTURE.md` by hand.
+5. Run the bootstrap: ask your agent to run `BOOTSTRAP.md`. It interviews you — one question at a time, with research and a recommendation attached to every question — to write `VISION.md`, the initial baseline specs, and `ARCHITECTURE.md`, then deletes itself in the same commit. To skip the guided session, delete `BOOTSTRAP.md` and fill `VISION.md` and `ARCHITECTURE.md` by hand.
 6. Verify the result:
 
    ```sh
@@ -107,7 +108,7 @@ The root `AGENTS.md` explicitly applies these harness-engineering principles:
 
 OpenSpec supplies the spec-driven workflow. Codebase Memory supplies structural code intelligence. Dotenvx supplies tracked encrypted environment files. The YAGNI and human-maintainability guidance is kept to a few direct rules rather than adding Ponytail or another policy dependency.
 
-The bootstrap change's interview mechanics follow grill-with-docs: one question at a time, a recommendation attached to every question, research before asking, and decisions written into the repository as they resolve. Its discovery posture follows vibe-check: find the problem under the stated idea, pressure-test whether it is worth solving, and split the smallest V1 from everything later.
+The bootstrap protocol's interview mechanics follow grill-with-docs: one question at a time, a recommendation attached to every question, research before asking, and decisions written into the repository as they resolve. Its discovery posture follows vibe-check: find the problem under the stated idea, pressure-test whether it is worth solving, and split the smallest V1 from everything later.
 
 Sources:
 
