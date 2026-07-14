@@ -3,9 +3,19 @@
 
 from __future__ import annotations
 
+import sys
+
+if sys.version_info < (3, 11):
+    print(
+        "ERROR: Python 3.11 or newer is required to run repository checks "
+        f"(tomllib became stdlib in 3.11); found {sys.version.split()[0]}. "
+        "Install Python 3.11+ and re-run `npm run check`.",
+        file=sys.stderr,
+    )
+    raise SystemExit(1)
+
 import re
 import subprocess
-import sys
 from pathlib import Path
 
 from spec_owners import validate as validate_ownership
@@ -17,7 +27,8 @@ PRIVATE_ASSIGNMENT = re.compile(
 )
 
 
-def tracked_files() -> list[Path] | None:
+def git_files(*args: str) -> list[Path] | None:
+    """List repository files via `git ls-files`, or None when git is unavailable."""
     probe = subprocess.run(
         ["git", "rev-parse", "--is-inside-work-tree"],
         cwd=ROOT,
@@ -28,7 +39,7 @@ def tracked_files() -> list[Path] | None:
     if probe.returncode != 0:
         return None
     result = subprocess.run(
-        ["git", "ls-files", "-z"],
+        ["git", "ls-files", "-z", *args],
         cwd=ROOT,
         capture_output=True,
         check=False,
@@ -41,13 +52,35 @@ def tracked_files() -> list[Path] | None:
 def main() -> int:
     errors: list[str] = []
 
+    present = git_files("--cached", "--others", "--exclude-standard")
+    if present is None:
+        generated = {
+            ".git",
+            "node_modules",
+            ".codebase-memory",
+            "__pycache__",
+            "coverage",
+            "dist",
+            "build",
+        }
+        present = [
+            path
+            for path in ROOT.rglob("*")
+            if path.is_file()
+            and not (generated & set(path.relative_to(ROOT).parts[:-1]))
+        ]
+
     agents = sorted(
         path.relative_to(ROOT).as_posix()
-        for path in ROOT.rglob("*")
+        for path in present
         if path.is_file() and path.name.lower() == "agents.md"
     )
     if agents != ["AGENTS.md"]:
-        errors.append(f"the repository must contain only root AGENTS.md; found: {agents}")
+        errors.append(
+            "the repository must contain exactly one AGENTS.md at the root; "
+            f"found: {agents}. Fold nested agent instructions into the root map "
+            "and delete the copies."
+        )
 
     for required in ("VISION.md", "ARCHITECTURE.md", "openspec/config.yaml", ".env"):
         if not (ROOT / required).is_file():
@@ -61,7 +94,7 @@ def main() -> int:
     if archive.exists():
         errors.append("openspec/changes/archive must not exist; Git is the archive")
 
-    tracked = tracked_files()
+    tracked = git_files()
     if tracked is not None:
         for path in tracked:
             relative = path.relative_to(ROOT).as_posix()
