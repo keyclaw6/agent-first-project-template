@@ -3,8 +3,17 @@
 
 from __future__ import annotations
 
-import re
 import sys
+
+if sys.version_info < (3, 11):
+    print(
+        "ERROR: Python 3.11 or newer is required "
+        f"(tomllib became stdlib in 3.11); found {sys.version.split()[0]}.",
+        file=sys.stderr,
+    )
+    raise SystemExit(1)
+
+import re
 import tomllib
 from pathlib import Path
 
