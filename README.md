@@ -8,16 +8,18 @@ A small repository template for projects developed by humans and coding agents. 
 AGENTS.md              One repository-wide operating map
 VISION.md              Human-owned North Star
 ARCHITECTURE.md        Concise structure and boundary map for code changes
+BOOTSTRAP.md            One-time guided setup protocol (self-removing)
 src/                    Production code
 tests/                  Automated tests
 openspec/               Behavioral specs, active changes, and ownership
 scripts/                Small repository lifecycle checks
+.github/workflows/      CI running the repository checks
 .mcp.json               Codebase Memory MCP configuration
 .env                    Tracked dotenvx-encrypted environment placeholder
 package.json            Pinned OpenSpec and dotenvx tooling
 ```
 
-There is exactly one `AGENTS.md`, no `docs/` directory, and no CI mechanism protecting `VISION.md`. Agents are instructed not to change `VISION.md` without explicit human approval.
+There is exactly one `AGENTS.md` and no `docs/` directory. CI runs the repository checks on every push and pull request; nothing mechanically protects `VISION.md` — agents are instructed not to change it without explicit human approval.
 
 ## Prerequisites
 
@@ -29,17 +31,16 @@ There is exactly one `AGENTS.md`, no `docs/` directory, and no CI mechanism prot
 ## Start a project
 
 1. Copy this repository or use it as a template.
-2. Have a human replace the placeholder text in `VISION.md`.
-3. Describe the initial system shape and canonical commands in `ARCHITECTURE.md`.
-4. Replace `.env` with your existing encrypted dotenvx file. Put the matching private file at `.env.keys`; it is ignored by Git, Docker, and CBM.
-5. Install the pinned tools:
+2. Replace `.env` with your existing encrypted dotenvx file. Put the matching private file at `.env.keys`; it is ignored by Git, Docker, and CBM.
+3. Install the pinned tools:
 
    ```sh
    npm ci
    ```
 
-6. Install `codebase-memory-mcp` and ensure its binary is on `PATH`, or adjust `.mcp.json` for the local installation.
-7. Verify the template:
+4. Install `codebase-memory-mcp` and ensure its binary is on `PATH`, or adjust `.mcp.json` for the local installation.
+5. Run the bootstrap: ask your agent to run `BOOTSTRAP.md`. It interviews you — one question at a time, with research and a recommendation attached to every question — to write `VISION.md`, the initial baseline specs, and `ARCHITECTURE.md`, then deletes itself in the same commit. To skip the guided session, delete `BOOTSTRAP.md` and fill `VISION.md` and `ARCHITECTURE.md` by hand.
+6. Verify the result:
 
    ```sh
    npm run check
@@ -107,6 +108,8 @@ The root `AGENTS.md` explicitly applies these harness-engineering principles:
 
 OpenSpec supplies the spec-driven workflow. Codebase Memory supplies structural code intelligence. Dotenvx supplies tracked encrypted environment files. The YAGNI and human-maintainability guidance is kept to a few direct rules rather than adding Ponytail or another policy dependency.
 
+The bootstrap protocol's interview mechanics follow grill-with-docs: one question at a time, a recommendation attached to every question, research before asking, and decisions written into the repository as they resolve. Its discovery posture follows vibe-check: find the problem under the stated idea, pressure-test whether it is worth solving, and split the smallest V1 from everything later.
+
 Sources:
 
 - https://openai.com/index/harness-engineering/
@@ -117,3 +120,5 @@ Sources:
 - https://blog.scottlogic.com/2026/06/16/ponytail-yagni-and-the-problem-with-prompt-benchmarks.html
 - https://unstack.io/write-code-like-a-human-will-maintain-it
 - https://github.com/DietrichGebert/ponytail
+- https://www.aihero.dev/grill-with-docs
+- https://github.com/TexasBedouin/vibe-check
