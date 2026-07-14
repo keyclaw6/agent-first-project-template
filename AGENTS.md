@@ -6,10 +6,10 @@ This is the only `AGENTS.md` in the repository. Do not create nested copies. Tre
 
 ## Truth and repository map
 
+- Truth ranks in this order: `VISION.md` first, `openspec/specs/` second, everything else after.
 - `VISION.md` defines the enduring outcome and constraints.
-- `openspec/specs/` is the behavioral contract.
+- `openspec/specs/` is the behavioral contract. Requirement text uses RFC 2119 keywords (MUST, SHOULD, MAY).
 - `openspec/changes/<slug>/` holds temporary proposals for intentional behavior changes.
-- `ARCHITECTURE.md` is the concise map of runtime components, boundaries, entry points, and verification commands.
 - `src/` contains production code. `tests/` contains automated tests. `scripts/` contains repository automation.
 - Code explains how the system works. Codebase Memory (CBM) explains how code connects.
 - Git is history. Add documentation only when code, specs, tests, configuration, or generated state cannot carry the truth.
@@ -17,10 +17,9 @@ This is the only `AGENTS.md` in the repository. Do not create nested copies. Tre
 ## Progressive disclosure
 
 1. Read `VISION.md` for what the project is optimizing for.
-2. For code changes, read `ARCHITECTURE.md` for the current structure and boundaries.
-3. Read the relevant baseline specs and any overlapping active OpenSpec change.
-4. Use `codebase-memory-mcp` before broad cross-file exploration: inspect architecture, symbols, call paths, and change impact, then read the exact source and tests before editing.
-5. Load additional files only when the task requires them. Do not crawl the repository without a reason.
+2. Read the relevant baseline specs and any overlapping active OpenSpec change.
+3. Use `codebase-memory-mcp` before broad cross-file exploration: inspect architecture, symbols, call paths, and change impact, then read the exact source and tests before editing.
+4. Load additional files only when the task requires them. Do not crawl the repository without a reason.
 
 If CBM is unavailable, say so and continue with direct source inspection. Never claim to have used a tool that was unavailable.
 
@@ -38,7 +37,7 @@ Apply the following operating principles from OpenAI's harness-engineering artic
 ## How to code
 
 - Make the smallest cohesive change that satisfies the current requirement.
-- Preserve the established layout and dependency direction. When a framework requires a different layout, update `ARCHITECTURE.md` in the same change.
+- Preserve the established layout and dependency direction. When the layout or canonical commands change, update the README commands in the same change.
 - Prefer short feedback loops: reproduce, change, run focused checks, then run the full project checks.
 - Parse and validate data at trust boundaries. Do not build behavior on guessed shapes or silent fallbacks.
 - Keep the project runnable and verifiable without hidden conversational setup.
@@ -55,6 +54,8 @@ Write code as though a human will maintain it. Use clear names, obvious control 
 ## Spec-driven development
 
 Create intentional behavioral changes under `openspec/changes/<kebab-case-slug>/` before implementation. Keep proposals focused on the current need and state explicit non-goals.
+
+Changes follow the project-local lean schema (`openspec/schemas/lean`): one `proposal.md` covering why, goals and non-goals, what changes, optional design decisions, and a definition of done — plus delta specs. No separate design or tasks files.
 
 After human review, finalize with:
 
@@ -87,4 +88,4 @@ Before finishing:
 - run `npm run check` before handoff;
 - inspect the diff for accidental complexity, duplicated rules, secret exposure, spec drift, and unrelated changes;
 - use CBM change-impact analysis for non-trivial cross-file code changes;
-- leave code, tests, specs, ownership, and architecture consistent.
+- leave code, tests, specs, ownership, and documented commands consistent.

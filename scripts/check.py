@@ -82,7 +82,7 @@ def main() -> int:
             "and delete the copies."
         )
 
-    for required in ("VISION.md", "ARCHITECTURE.md", "openspec/config.yaml", ".env"):
+    for required in ("VISION.md", "openspec/config.yaml", ".env"):
         if not (ROOT / required).is_file():
             errors.append(f"missing required file: {required}")
 
