@@ -36,7 +36,7 @@ Apply the following operating principles from OpenAI's harness-engineering artic
 
 ## How to code
 
-- Make the smallest cohesive change that satisfies the current requirement.
+- Seek the most elegant solution to the current requirement: the smallest, clearest system of concepts, not the smallest diff. Rewrite or restructure when that leaves the repository materially smaller or clearer. Never optimize for patch size or least effort.
 - Preserve the established layout and dependency direction. When the layout or canonical commands change, update the README commands in the same change.
 - Prefer short feedback loops: reproduce, change, run focused checks, then run the full project checks.
 - Parse and validate data at trust boundaries. Do not build behavior on guessed shapes or silent fallbacks.
