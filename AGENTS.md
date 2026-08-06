@@ -13,6 +13,7 @@ This is the only `AGENTS.md` in the repository. Do not create nested copies. Tre
 - `src/` contains production code. `tests/` contains automated tests. `scripts/` contains repository automation.
 - Code explains how the system works. Codebase Memory (CBM) explains how code connects.
 - Git is history. Add documentation only when code, specs, tests, configuration, or generated state cannot carry the truth.
+- Every fact has exactly one home: behavior → `openspec/specs/`; how-to method → skills; deployment specifics → the deployment runbook; repository rules → this file. Never restate a fact outside its home — reference or load it instead. Do not create new standalone documents; if knowledge has no home, it goes in the nearest existing one or nowhere.
 
 ## Progressive disclosure
 
