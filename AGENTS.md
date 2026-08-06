@@ -42,6 +42,7 @@ Apply the following operating principles from OpenAI's harness-engineering artic
 - Parse and validate data at trust boundaries. Do not build behavior on guessed shapes or silent fallbacks.
 - Keep the project runnable and verifiable without hidden conversational setup.
 - Update tests with code. Test observable behavior and important failure modes rather than implementation trivia.
+- When the project runs on a live system or platform, a change is done only when the live system proves it — the system's own response, effective state, or a trace. Inspecting code or config is never completion evidence, and a test is not verification either: write a test only to lock in behavior that live evidence already proved.
 
 ## YAGNI and maintainable code
 
@@ -53,7 +54,7 @@ Write code as though a human will maintain it. Use clear names, obvious control 
 
 ## Spec-driven development
 
-Create intentional behavioral changes under `openspec/changes/<kebab-case-slug>/` before implementation. Keep proposals focused on the current need and state explicit non-goals.
+OpenSpec is human-gated. Never create or edit anything under `openspec/` on your own — including `openspec/specs/`, which changes only through the finalizer run with the human owner. Before suggesting a spec change, read the current specs: small fixes and work already within spec need no OpenSpec change. If behavior genuinely must change, propose it to the human owner in a short message — not files — and stop until they explicitly approve; only then may the change folder be created under `openspec/changes/<kebab-case-slug>/`, focused on the current need with explicit non-goals.
 
 Changes follow the project-local lean schema (`openspec/schemas/lean`): one `proposal.md` covering why, goals and non-goals, what changes, optional design decisions, and a definition of done — plus delta specs. No separate design or tasks files.
 
